@@ -35,6 +35,7 @@ build/
 
 # Environment & secrets
 .env
+.env.properties
 **/backend/**/application.properties
 **/backend/**/application.yml
 **/frontend/.env*

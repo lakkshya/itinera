@@ -1,11 +1,26 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { LuSparkles } from "react-icons/lu";
 import HomeInputBox from "./components/HomeInputBox";
 
-
 export default function Home() {
+  const images = [
+    "/home/img1.jpg",
+    "/home/img2.jpg",
+    "/home/img3.jpg",
+    "/home/img4.jpg",
+  ];
+
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   return (
     <main className="min-h-screen flex flex-col justify-center px-10 bg-gray-200">
@@ -34,13 +49,19 @@ export default function Home() {
         {/* Content */}
         <div className="w-full relative">
           {/* Background Image */}
-          <div className="w-full h-60 relative">
-            <Image
-              src="/cover-bg.jpg"
-              alt="Places"
-              fill
-              className="object-cover rounded-2xl"
-            />
+          <div className="w-full h-60 relative overflow-hidden rounded-2xl">
+            {images.map((src, i) => (
+              <Image
+                key={src}
+                src={src}
+                alt={`Background ${i + 1}`}
+                fill
+                priority={i === 0}
+                className={`object-cover rounded-2xl absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                  i === index ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
           </div>
 
           {/* Search Box */}

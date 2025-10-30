@@ -1,8 +1,13 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axiosClient from "../api/axiosClient";
 import DateTimePicker from "./DateTimePicker";
 import LocationInput from "./LocationInput";
+import LoadingScreen from "./LoadingScreen";
 
 const HomeInputBox = () => {
+  const router = useRouter();
+
   const [location, setLocation] = useState("");
   const [startDateTime, setStartDateTime] = useState<Date | null>(null);
   const [endDateTime, setEndDateTime] = useState<Date | null>(null);
@@ -10,6 +15,8 @@ const HomeInputBox = () => {
   const [openPicker, setOpenPicker] = useState<"start" | "end" | null>(null);
 
   const [inputErrors, setInputErrors] = useState<Record<string, string>>({});
+
+  const [loading, setLoading] = useState(false);
 
   const validateInput = () => {
     const newError: Record<string, string> = {};
@@ -36,10 +43,33 @@ const HomeInputBox = () => {
 
   const generatePlaces = async () => {
     if (!validateInput()) return;
+
+    setLoading(true);
+
+    try {
+      localStorage.setItem("tripStart", startDateTime?.toISOString() || "");
+      localStorage.setItem("tripEnd", endDateTime?.toISOString() || "");
+      localStorage.setItem("tripLocation", location);
+
+      const response = await axiosClient.post("/ai/generate-places", {
+        location,
+      });
+
+      const sessionId = response.data.sessionId;
+
+      setTimeout(() => {
+        router.push(`/places?sessionId=${sessionId}`);
+      }, 300);
+    } catch (error) {
+      console.log("Error fetching places:", error);
+      setLoading(false);
+    }
   };
 
   return (
     <div>
+      {loading && <LoadingScreen message="Generating itinerary..." />}
+
       <div className="absolute top-44 left-1/2 -translate-x-1/2 w-4/5 flex justify-between gap-2 bg-white p-4 rounded-3xl shadow-md">
         {/* Location */}
         <LocationInput
