@@ -107,7 +107,7 @@ const DateTimePicker = ({
   };
 
   return (
-    <div ref={pickerRef} className="relative min-w-56">
+    <div ref={pickerRef} className="relative min-w-52">
       {/* Input box */}
       <div
         onClick={() => {

@@ -40,11 +40,11 @@ public class AIService {
                         JSONObject message = new JSONObject()
                                         .put("role", "user")
                                         .put("content",
-                                                        "Return ONLY a valid JSON object. No extra text, no explanations, no markdown. "
+                                                        "Return ONLY a valid JSON object. No extra text, no explanations, no markdown."
                                                                         +
-                                                                        "The JSON must have a key 'places' that contains an array of 20 objects. "
+                                                                        "The JSON must have a key 'places' that contains an array of 20 objects."
                                                                         +
-                                                                        "Each object must have: 'name', 'description', and 'ideal_visit_time'. "
+                                                                        "Each object must have the following keys: 'name', 'description', 'read_more_link', 'open_time', 'close_time', 'ideal_start_time', 'ideal_end_time', 'priority', 'latitude', and 'longitude'."
                                                                         +
                                                                         "List 20 must-visit tourist places in " + city
                                                                         + ".");

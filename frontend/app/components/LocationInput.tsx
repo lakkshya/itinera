@@ -68,7 +68,7 @@ export default function LocationInput({
   return (
     <div
       onClick={() => locationRef.current?.focus()}
-      className="relative min-w-64 flex flex-col gap-1 overflow-visible"
+      className="relative min-w-52 flex flex-col gap-1 overflow-visible"
     >
       <div
         className={`flex flex-col hover:bg-gray-100 px-3 py-3 rounded-2xl border transition-colors bg-white ${

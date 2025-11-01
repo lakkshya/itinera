@@ -57,8 +57,16 @@ const HomeInputBox = () => {
 
       const sessionId = response.data.sessionId;
 
+      // Encode and navigate with all relevant data
+      const query = new URLSearchParams({
+        sessionId,
+        start: startDateTime?.toISOString() || "",
+        end: endDateTime?.toISOString() || "",
+        location,
+      }).toString();
+
       setTimeout(() => {
-        router.push(`/places?sessionId=${sessionId}`);
+        router.push(`/places?${query}`);
       }, 300);
     } catch (error) {
       console.log("Error fetching places:", error);
@@ -70,7 +78,7 @@ const HomeInputBox = () => {
     <div>
       {loading && <LoadingScreen message="Generating itinerary..." />}
 
-      <div className="absolute top-44 left-1/2 -translate-x-1/2 w-4/5 flex justify-between gap-2 bg-white p-4 rounded-3xl shadow-md">
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-3 bg-white p-4 rounded-3xl shadow-md">
         {/* Location */}
         <LocationInput
           value={location}
@@ -110,7 +118,7 @@ const HomeInputBox = () => {
         <div className="flex items-center">
           <button
             onClick={generatePlaces}
-            className="bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-2xl cursor-pointer"
+            className="w-full bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-2xl cursor-pointer"
           >
             Go
           </button>
