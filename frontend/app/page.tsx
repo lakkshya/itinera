@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { LuSparkles } from "react-icons/lu";
 import HomeInputBox from "./components/HomeInputBox";
 
 export default function Home() {
@@ -23,17 +22,18 @@ export default function Home() {
   }, [images.length]);
 
   return (
-    <main className="h-screen flex flex-col justify-center py-10 lg:py-0 bg-gray-200">
+    <main className="md:h-screen flex flex-col justify-center gap-10 py-10 lg:py-0 bg-gray-200">
       <div className="w-full h-full flex flex-col lg:justify-center items-center gap-14 lg:gap-10 lg:-mt-10">
         {/* Header */}
         <div className="w-full flex flex-col gap-5 md:flex-row justify-between items-center px-5 lg:px-10 animate-fade-in">
           <div className="flex flex-col items-center md:items-start">
-            <div className="flex gap-2">
-              <LuSparkles className="w-8 h-8" />
-              <h1 className="text-5xl md:text-[6rem] lg:text-[8rem] font-bold tracking-tight">
-                Itinera
-              </h1>
-            </div>
+            <Image
+              src="/logo.png"
+              alt="Itinera Logo"
+              width={400}
+              height={400}
+              className="w-2/3"
+            />
             <p className="text-xl md:text-3xl font-light text-center md:text-left">
               Your journey, perfectly planned
             </p>

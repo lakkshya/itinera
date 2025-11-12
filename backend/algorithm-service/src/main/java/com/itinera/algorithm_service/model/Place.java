@@ -1,4 +1,4 @@
-package com.itinera.ai_service.model;
+package com.itinera.algorithm_service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +17,5 @@ public class Place {
     private int idealStartTime;
     private int idealEndTime;
     private int exploreTime;
-    private int priority;
-}
+    private int priority; //lower=higher
+} 
