@@ -79,7 +79,7 @@ public class AIService {
                         String sessionId = UUID.randomUUID().toString();
 
                         // Cache both by city and session ID
-                        redisTemplate.opsForValue().set("places:city:" + city, content, 6, TimeUnit.HOURS);
+                        redisTemplate.opsForValue().set("places:city:" + city, content, 1, TimeUnit.HOURS);
                         redisTemplate.opsForValue().set("places:session:" + sessionId, content, 1, TimeUnit.HOURS);
 
                         return sessionId;
