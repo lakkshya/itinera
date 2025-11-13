@@ -3,9 +3,12 @@ import { useRouter } from "next/navigation";
 import axiosClient from "../api/axiosClient";
 import DateTimePicker from "./DateTimePicker";
 import LocationInput from "./LocationInput";
-import LoadingScreen from "./LoadingScreen";
 
-const HomeInputBox = () => {
+interface HomeInputBoxProps {
+  setLoading: (value: boolean) => void;
+}
+
+const HomeInputBox = ({ setLoading }: HomeInputBoxProps) => {
   const router = useRouter();
 
   const [location, setLocation] = useState("");
@@ -15,8 +18,6 @@ const HomeInputBox = () => {
   const [openPicker, setOpenPicker] = useState<"start" | "end" | null>(null);
 
   const [inputErrors, setInputErrors] = useState<Record<string, string>>({});
-
-  const [loading, setLoading] = useState(false);
 
   const validateInput = () => {
     const newError: Record<string, string> = {};
@@ -75,54 +76,50 @@ const HomeInputBox = () => {
   };
 
   return (
-    <div>
-      {loading && <LoadingScreen message="Generating itinerary..." />}
+    <div className="flex flex-col lg:flex-row lg:justify-between gap-3 bg-white p-4 rounded-3xl shadow-md">
+      {/* Location */}
+      <LocationInput
+        value={location}
+        onChange={(location) => setLocation(location)}
+        error={inputErrors.location}
+      />
 
-      <div className="flex flex-col lg:flex-row lg:justify-between gap-3 bg-white p-4 rounded-3xl shadow-md">
-        {/* Location */}
-        <LocationInput
-          value={location}
-          onChange={(location) => setLocation(location)}
-          error={inputErrors.location}
-        />
+      {/* Start Date & Time */}
+      <DateTimePicker
+        label="Start date & time"
+        value={startDateTime}
+        onChange={(date) => setStartDateTime(date)}
+        onFocus={() => handleFocus("startDateTime")}
+        open={openPicker === "start"}
+        onOpenChange={(open) => setOpenPicker(open ? "start" : null)}
+        minDate={new Date()}
+        error={!!inputErrors.startDateTime}
+        fieldName="startDateTime"
+      />
 
-        {/* Start Date & Time */}
-        <DateTimePicker
-          label="Start date & time"
-          value={startDateTime}
-          onChange={(date) => setStartDateTime(date)}
-          onFocus={() => handleFocus("startDateTime")}
-          open={openPicker === "start"}
-          onOpenChange={(open) => setOpenPicker(open ? "start" : null)}
-          minDate={new Date()}
-          error={!!inputErrors.startDateTime}
-          fieldName="startDateTime"
-        />
+      {/* End Date & Time */}
 
-        {/* End Date & Time */}
+      <DateTimePicker
+        label="End date & time"
+        value={endDateTime}
+        onChange={(date) => setEndDateTime(date)}
+        onFocus={() => handleFocus("endDateTime")}
+        open={openPicker === "end"}
+        onOpenChange={(open) => setOpenPicker(open ? "end" : null)}
+        minDate={startDateTime || new Date()}
+        defaultMonth={startDateTime || new Date()}
+        error={!!inputErrors.endDateTime}
+        fieldName="endDateTime"
+      />
 
-        <DateTimePicker
-          label="End date & time"
-          value={endDateTime}
-          onChange={(date) => setEndDateTime(date)}
-          onFocus={() => handleFocus("endDateTime")}
-          open={openPicker === "end"}
-          onOpenChange={(open) => setOpenPicker(open ? "end" : null)}
-          minDate={startDateTime || new Date()}
-          defaultMonth={startDateTime || new Date()}
-          error={!!inputErrors.endDateTime}
-          fieldName="endDateTime"
-        />
-
-        {/* Go Button */}
-        <div className="flex items-center">
-          <button
-            onClick={generatePlaces}
-            className="w-full bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-2xl cursor-pointer"
-          >
-            Go
-          </button>
-        </div>
+      {/* Go Button */}
+      <div className="flex items-center">
+        <button
+          onClick={generatePlaces}
+          className="w-full bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-2xl cursor-pointer"
+        >
+          Go
+        </button>
       </div>
     </div>
   );
