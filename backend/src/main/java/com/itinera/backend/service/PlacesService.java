@@ -62,7 +62,7 @@ public class PlacesService {
                     .url(API_URL)
                     .addHeader("Authorization", "Bearer " + apiKey)
                     .addHeader("HTTP-Referer", "http://localhost:8080")
-                    .addHeader("X-Title", "Itinera Places Service")
+                    .addHeader("X-Title", "Places Service")
                     .post(requestBody)
                     .build();
 
